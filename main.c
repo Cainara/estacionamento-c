@@ -43,8 +43,7 @@ void main () {
 		vaga = 0;
 		while (vaga < VAGAS) {
 			if (dados[vaga].esta == true) {
-				printf("Vaga %d: %s %.2d:%.2d %.2d/%.2d/%.4d\n", vaga+1, dados[vaga].placa,
-				dados[vaga].hora, dados[vaga].minuto, dados[vaga].dia, dados[vaga].mes, dados[vaga].ano);
+				printf("Vaga %d: %s %.2d:%.2d %.2d/%.2d/%.4d\n", vaga+1, dados[vaga].placa, dados[vaga].hora, dados[vaga].minuto, dados[vaga].dia, dados[vaga].mes, dados[vaga].ano);
 			}
 			vaga++;
 		}
@@ -134,7 +133,7 @@ void entrada(struct tdados *p){
 		scanf("%d", &p->ano);
 		fflush(stdin);
 		if ((p->hora < 0)||(p->hora > 24)||(p->minuto < 0)||(p->minuto > 60)) {
-			if ((p->dia < 1)||(p->dia > 31)||(p->mes < 1)||(p->mes > 12)||(p->ano < 1975)||((p->mes == 2)&(p->dia > 29))) {
+			if ((p->dia < 1)||(p->dia > 31)||(p->mes < 1)||(p->mes > 12)||(p->ano < 1875)||((p->mes == 2)&(p->dia > 29))) {
 				errou = true;
 				printf("Entrada inv%clida\n", 160);
 				printf("Pressione qualquer tecla para continuar...\n");
@@ -198,7 +197,7 @@ void cobrar(struct tdados *p, struct tdados *q, int dias){
 			dinheiro += 11;
 		} else if (i == 2) {
 			dinheiro += 9;
-		} else if (i > 5){
+		} else if (i > 4){
 			dinheiro += 6;
 		}
 		horas--;
@@ -206,7 +205,6 @@ void cobrar(struct tdados *p, struct tdados *q, int dias){
 	}
 
 	dinheiro += dias*46;
-	printf("Voc%c ficou %d dias e %d horas. ", 136, dias, horas);
 	printf("O pre%co a pagar %c de R$ %d,00\n", 135, 130, dinheiro);
 	printf("Agradecemos a prefer%cncia\n", 136);
 }
