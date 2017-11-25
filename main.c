@@ -25,13 +25,7 @@ void main () {
 	int vaga = 0;
 
 	while (vaga < VAGAS) {
-		strcpy(dados[vaga].placa, "0000000\n");
 		dados[vaga].esta = false;
-		dados[vaga].hora = 0;
-		dados[vaga].minuto = 0;
-		dados[vaga].dia = 0;
-		dados[vaga].mes = 0;
-		dados[vaga].ano = 0;
 		vaga++;
 	}
 
