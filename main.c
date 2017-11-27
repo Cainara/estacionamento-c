@@ -10,7 +10,7 @@ struct tdados{
 	char placa[8];
 	bool esta;
 };
-void menu ();
+void menu (struct tdados *p);
 void identidade(struct tdados *p);
 void entrada(struct tdados *p);
 int bissexto(int ano);
@@ -31,17 +31,7 @@ void main () {
 
 	while (saida_menu == 'S') {
 		system("clear || cls");
-		menu();
-
-		printf("\nCarros estacionados:\n");
-		vaga = 0;
-		while (vaga < VAGAS) {
-			if (dados[vaga].esta == true) {
-				printf("Vaga %d: %s %.2d:%.2d %.2d/%.2d/%.4d\n", vaga+1, dados[vaga].placa, dados[vaga].hora, dados[vaga].minuto, dados[vaga].dia, dados[vaga].mes, dados[vaga].ano);
-			}
-			vaga++;
-		}
-		printf("---------\n");
+		menu(&dados);
 
 		identidade(&atual);
 
@@ -95,10 +85,21 @@ void main () {
 	}
 	printf("\n");
 }
-void menu () {
+void menu (struct tdados *p) {
+	int vaga;
 	printf("\a%c%c BEM VINDO AO ESTACIONAMENTO DO TADEU %c%c\n", 205, 185, 204, 205);
 	printf("\nPRE%cO POR HORA\n 1%c hora: R$ 11,00\n 2%c %c 4%c hora: +R$ 9,00\n Demais horas: +R$ 6,00\n", 128, 166, 166, 133, 166);
 	printf("\nPRE%cO DA DI%cRIA: R$ 46,00\n", 128, 181);
+
+	printf("\nCarros estacionados:\n");
+	vaga = 0;
+	while (vaga < VAGAS) {
+		if ((p+vaga)->esta == true) {
+			printf("Vaga %d: %s %.2d:%.2d %.2d/%.2d/%.4d\n", vaga+1, (p+vaga)->placa, (p+vaga)->hora, (p+vaga)->minuto, (p+vaga)->dia, (p+vaga)->mes, (p+vaga)->ano);
+		}
+		vaga++;
+	}
+	printf("---------\n");
 }
 void identidade(struct tdados *p){
 	printf("\nIDENTIFICA%c%cO\n\n", 128, 199);
@@ -110,30 +111,32 @@ void entrada(struct tdados *p){
 	bool errou;
 
 	do {
+		errou = false;
 		printf("ENTRADA/SA%cDA\n\n", 214);
-		printf("Hora: ");
+		printf("Hora (0 - 23): ");
 		scanf("%d", &p->hora);
 		fflush(stdin);
-		printf("Minuto: ");
+		printf("Minuto (0 - 59): ");
 		scanf("%d", &p->minuto);
 		fflush(stdin);
-		printf("Dia: ");
+		printf("Dia (1 - 31): ");
 		scanf("%d", &p->dia);
 		fflush(stdin);
-		printf("Mes: ");
+		printf("Mes (1 - 12): ");
 		scanf("%d", &p->mes);
 		fflush(stdin);
-		printf("Ano: ");
+		printf("Ano (1875 - ...): ");
 		scanf("%d", &p->ano);
 		fflush(stdin);
-		if ((p->hora < 0)||(p->hora > 24)||(p->minuto < 0)||(p->minuto > 60)) {
-			if ((p->dia < 1)||(p->dia > 31)||(p->mes < 1)||(p->mes > 12)||(p->ano < 1875)||((p->mes == 2)&(p->dia > 29))) {
-				errou = true;
-				printf("Entrada inv%clida\n", 160);
-				printf("Pressione qualquer tecla para continuar...\n");
-				getchar();
-				system("clear || cls");
-			}
+		if ((p->hora < 0)||(p->hora > 23)||(p->minuto < 0)||(p->minuto > 59)||
+		(p->dia < 1)||(p->dia > 31)||(p->mes < 1)||(p->mes > 12)||(p->ano < 1875)||
+		((p->dia > 28)&&(p->mes == 2)&&(bissexto(p->ano) == 0))||
+		((p->dia > 29)&&(p->mes == 2)&&(bissexto(p->ano) == 1))) {
+			errou = true;
+			printf("Entrada inv%clida\n", 160);
+			printf("Pressione qualquer tecla para continuar...\n");
+			getchar();
+			system("clear || cls");
 		}
 	} while(errou == true);
 }
